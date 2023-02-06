@@ -14,9 +14,7 @@ Sys.setlocale("LC_CTYPE", "en_US.UTF-8") # Encoding UTF-8
 
 require(pacman) 
 # Llamar y/o instalar las librerías de la clase
-p_load(rio,skimr,tidyverse,readr) 
-
-
+p_load(rio,skimr,dplyr,tidyverse,readr) 
 
 # 0.1 Directorio ----------------------------------------------------------
 
@@ -24,7 +22,7 @@ p_load(rio,skimr,tidyverse,readr)
 getwd()
 
 # Ubicacion deseada
-setwd("C:/Users/jl.ochoa/OneDrive - Universidad de los Andes/Complementarias/Economía del Transporte/Clase R/Clase 2 - Introduccion/")
+setwd("C:/Users/jl.ochoa/OneDrive - Universidad de los Andes/Complementarias/Economía del Transporte - Clases R/Clase R/Clase 2 - Introduccion/")
 
 # 1. Importar y exportar datos --------------------------------------------
 
