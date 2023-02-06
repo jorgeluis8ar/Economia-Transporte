@@ -20,7 +20,7 @@ output: slidy_presentation
 * Curso permitirá a los estudiantes tener habilidades **básicas** computacionales para resolver preguntas económicas
 
 * Diapositivas, códigos, bases e insumos para los talleres se encontraran en mi página personal de Github.
-[Github](https://github.com/jorgeluis8ar).
+[Github](https://github.com/jorgeluis8ar/Economia-Transporte).
 
 * Cada clase contará con scripts y una explicación de temas necesarios para el curso. Recuerden que en Bloque Neón quedarán los videos de explicación
 
