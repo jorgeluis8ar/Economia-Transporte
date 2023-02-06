@@ -17,6 +17,11 @@ output: slidy_presentation
 * Los [10 paquetes](https://www.datacamp.com/tutorial/top-ten-most-important-packages-in-r-for-data-science) más populares en R:
 
   1. [ggplot2](https://ggplot2.tidyverse.org/): Visualización de datos. Basado en *Gramática de gráficos*
+  
+
+  ![](Auxiliar/Mapa localidad barrio manzana.png){width=90%}
+  ![](Auxiliar/Mapa manzanas 0 - 300 mts.jpeg){width=90%}
+  
   2. [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html): Paquete para manipulación de bases de datos más rápido.
   3. [dplyr](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8): Paquete de manipulación de datos. 
   4. [tidyr](https://posit.co/blog/introducing-tidyr/): Limpiar y procesar datos
@@ -102,7 +107,7 @@ mtcars %>%
 ```{r pipe1, echo = TRUE, eval = F}
 mtcars %>% 
   group_by(gear) %>% 
-  reframe(carros = n(),
+  summarise(carros = n(),
           mpg = mean(mpg),
           max_mpg = max(mpg),
           hp = mean(hp),
@@ -120,7 +125,7 @@ mtcars %>%
 ```{r pipe2, echo=FALSE}
 mtcars %>% 
   group_by(gear) %>% 
-  reframe(carros = n(),
+  summarise(carros = n(),
           mpg = mean(mpg),
           max_mpg = max(mpg),
           hp = mean(hp),
