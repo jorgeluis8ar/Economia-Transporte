@@ -1,0 +1,233 @@
+---
+pagetitle: Clase 01
+title: "Economía del Transporte: Clases de R"
+subtitle: "Clase 03: Introducción a regresiones"
+author: "Jorge Luis Ochoa Rincón"
+date: "2021-02-22"
+transition: faster
+toc: true
+theme: "Warsaw"
+output: slidy_presentation
+---
+
+# Regresión Lineal
+
+Una regresión lineal se compone de dos partes:
+
+  1. El **valor esperado condicional** de la variable dependiente. Función lineal de las variables independientes:
+      $$E(y|x_1, \dots, x_k) = \beta_1 x_1 + \dots + \beta_k x_k$$
+      
+  2. Término del error que entra de forma aditiva:
+  
+      $$y = E(y|x_1, \dots, x_k) + \epsilon$$
+
+
+* $\epsilon$ captura **todos** los factores que afectan $y$ pero que no están  incluidos en el modelo
+
+* Combinando 1 y 2 obtenemos el **modelo de regresión lineal**
+
+  \begin{equation*}
+    y = \beta_1 x_1 + \dots + \beta_k x_k + \epsilon
+  \end{equation*}
+  
+* Objetivo es estimar los parámetros desconocidos $\beta$'s
+
+# Notación
+
+* Subíndice $i$ denota una observación. Esta se define según la unidad de análisis que se utiliza.
+  -   Ejemplo: Individuos, países, industria, participantes x tiempo
+  
+* Suponemos una muestra aleatoria de tamaño $N$:
+
+  \begin{equation*}
+    \{(y_i,x_{i1},\dots,x_{ik}): i = 1, \dots, N\}
+  \end{equation*}
+  
+* Juntando las $N$ observaciones obtenemos:
+
+\begin{equation*}
+  \mathbf{y_i} = \begin{pmatrix}
+                      y_1\\ y_2\\ \vdots\\ y_N
+                      \end{pmatrix}_{N\times 1} , 
+                      \mathbf{X_i} = \begin{pmatrix}
+                      x_{i1}' \\ x_{i2}' \\ \vdots \\ x_{ik}'
+                      \end{pmatrix}_{N\times k} ,
+                      \mathbf{\beta} = \begin{pmatrix}
+                      \beta_{1} \\ \beta_{2}  \\ \vdots  \\ \beta_{k}
+                      \end{pmatrix}_{k\times 1} ,
+                      \mathbf{\epsilon} = \begin{pmatrix}
+                      \epsilon_{1} \\ \epsilon_{2}  \\ \vdots  \\ \epsilon_{N}
+                      \end{pmatrix}_{N\times 1} 
+\end{equation*}
+
+* Donde si no se especifica, $x_1' = 1$.
+
+* El modelo puede reescribirse para las $N$ observaciones de forma compacta:
+
+\begin{equation*}
+  \mathbf{y_i} = \mathbf{X}_i'\beta + \epsilon_i
+\end{equation*}
+
+# Supuestos del Modelo Clásico Lineal
+
+1. **El modelo es lineal en los parámetros**
+
+  - ¿Es restrictivo este supuesto?
+
+2. **Variables independientes deben ser ortogonales al término del error**
+
+  - Variables independientes no se deben correlacionar con término del error
+  
+  - $Cov(\epsilon_i,\mathbf{x}_i) = E(\epsilon_i\mathbf{x}_i) = 0$
+  
+  - Supuesto clave para poder hablar de **causalidad**
+  
+  \begin{equation*}
+      \frac{\partial E(y_i|\mathbf{X})}{x_j} = \beta_j
+  \end{equation*}
+
+3. **Matriz X es de rango completo**
+
+  - Rango: número máximo de columnas que son linealmente independientes
+  - $rank(\mathbf{X}) = rank(\mathbf{X'X}) = k$
+  - Una matriz cuadrada de rango completo es invertible
+  
+4. **Homocedasticidad y no autocorrelación**
+
+  - $Var(\epsilon_i|\mathbf{X}) = \sigma^2$ para $i = 1, \dots, N$
+  - $Cov(\epsilon_i,\epsilon_j|\mathbf{X}) = 0$ para $i \neq j$
+  - Necesario para calcular correctamente la varianza de los estimadores
+  
+# Poblacional vs Muestral
+
+* Regresiones no son otra cosa sino la estimación de unos parámetros muestrales
+
+* ¿Cómo podemos hacer inferencia entonces de un parámetro poblacional?
+
+* Propiedades adicionales de los estimadores que no discutiremos en esta clase: 
+  1. Consistencia
+  2. Distribuciones asintóticas
+  
+* Vamos a denotar todas las variables muestrales utilizando el signo $\hat{}$
+
+| Poblacional   | Muestral      | Parámetro                |
+|---------------|:---------------:|-----------------------:|
+| $\beta$       | $\hat{\beta}$   | Vector de coeficiente  |
+
+
+* Algunos conceptos importantes:
+  1. Error poblacional ($\epsilon$): diferencia entre lo observado y el modelo correcto
+  2. Error muestral ($\hat{\epsilon}$): diferencia entre lo observado y lo estimado
+  3. Predicción ($\hat{y}$): Datos más estimación muestral de los parámetros
+  
+# Regresión
+
+Considere el siguiente modelo de regresión lineal simple:
+
+\begin{equation*}
+  y_i = \beta_0 + \beta_1 X + e_i
+\end{equation*}
+
+![](Auxiliar/linear-regression.png){width=40%}
+
+* ¿Cómo estimamos los parámetros $\beta$'s?
+* **Solución**: Mínimos cuadrados ordinarios (MCO). Definimos:
+
+\begin{align}
+  S(\hat{\beta}) = \sum_{i}\hat{\epsilon_i}^2 = & \sum_{i} \left(y_i - \hat{y_i}\right)^2 \\
+                                              = & \sum_{i}(y_i - \mathbf{X}_i'\hat{\beta})^2 \\
+                                              = & (y_i - \mathbf{X}_i'\hat{\beta})'(y_i - \mathbf{X}_i'\hat{\beta})
+\end{align}
+
+* Después de algunos pasos y obtener las condiciones de primer orden, los parámetros están dados por la siguiente ecuación:
+
+\begin{equation*}
+  \hat{\beta}_{mco} = (\mathbf{X}'\mathbf{X})'\mathbf{X}\mathbf{y}
+\end{equation*}
+
+* ¿Qué pueden decir de $\hat{\beta}$?
+
+* **Vamos a R**
+
+# Inferencia estadística
+
+**Definición prueba de hipótesis**: afirmación sobre los parámetros poblacionales 
+
+* Se plantea una hipótesis que se quiere probar. Definimos **hipótesis nula** ($H_0$) y una **hipótesis alterna** ($H_1$)
+
+* Objetivo es decidir, si basado en los datos, rechazamos hipótesis nula en favor de la alterna.
+
+* Regla de decisión es función de la muestra indicando si estos son consistentes con hipótesis nula
+
+* Regla de decisión. P valor: valor más grande a partir del cual el estadístico rechaza hipótesis nula
+
+# Prueba sobre un parámetro $\beta$
+
+1. Definimos la prueba estadística
+
+\begin{align*}
+  H_0: \beta_k = & \alpha \\
+  H_1: \beta_k \neq & \alpha
+\end{align*}
+
+2. Estadístico de prueba
+
+\begin{equation*}
+  t_k = \frac{\hat{\beta_k} - \alpha}{\sqrt{Var(\hat{\beta_k})}}
+\end{equation*}
+
+3. Comparamos frente al valor crítico asociado al nivel de significancia deseado de una distribución t/normal estándar
+
+4. Conclusión
+
+# Intervalos de confianza de un parámetro $\beta$
+
+Hacemos inferencia sobre el rango de valores plausibles del parámetro poblacional $\beta_k$
+
+* Intervalo contiene el parámetro con una alta probabilidad
+
+* Si repetimos el ejercicio de estimación de los parámetros $\beta$'s, en un porcentaje $(1-\gamma)*100$ el parámetro está dentro del intervalo.
+
+* Intervalo se define como:
+
+\begin{align*}
+  I.C = \hat{\beta_k} - C_{\frac{\gamma}{2}} * \sqrt{Var(\hat{\beta_k})} < \hat{\beta_k} \leq \hat{\beta_k} + C_{\frac{\alpha}{2}} * \sqrt{Var(\hat{\beta_k})}
+\end{align*}
+
+* Si calculamos la probabilidad obtenemos
+
+\begin{equation*}
+  Pr(I.C) = 1-\gamma
+\end{equation*}
+
+# Prueba de relevancia global F
+
+1. Definimos la prueba estadística
+
+\begin{align*}
+  H_0: \beta_f = \beta_r = & 0 \\
+  H_1: \text{algun $\beta_k$} \neq & 0
+\end{align*}
+
+2. Estadístico de prueba
+
+\begin{equation*}
+  F_c = \frac{\frac{SCR}{GLR}}{\frac{SCE}{GLE}} = \frac{CMR}{CME} \sim F_{GLR;GLE}
+\end{equation*}
+
+
+SCC: Suma de cuadrados de la regresión
+
+GLR: Grados de libertad de la regresión
+
+CSE: Suma de Cuadrados del Error
+
+GLE: Grados de Libertad del Error
+
+CMR: Cuadrado Medio de la Regresión
+
+CME: Cuadrado Medio del Error
+
+3. Comparamos frente al valor crítico asociado al nivel de significancia deseado de una distribución F
+
+4. Conclusión
